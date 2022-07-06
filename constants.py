@@ -1,0 +1,2 @@
+FPS = 30
+BLOCK_SIZE = 25

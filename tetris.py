@@ -105,7 +105,6 @@ block = Block()
 
 # Generate a 2D list of 0s to represent the playing field
 field = [[0 for x in range(10)] for y in range(20)]
-print(field)
 
 run = True
 while run:

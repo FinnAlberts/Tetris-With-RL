@@ -71,9 +71,10 @@ class Tetronimo:
         # Choose a random tetronimo
         tetronimo_type = 0
         # Create a tetronimo
+        # Straight shape
         if tetronimo_type == 0:
             for i in range(4):
-                self.blocks.append(Block(5 + i, 0))
+                self.blocks.append(Block(3 + i, 0))
 
     def get_blocks(self):
         return self.blocks

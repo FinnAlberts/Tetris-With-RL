@@ -29,7 +29,7 @@ class TetrisEnvironment(gym.Env):
         gamestate = tetris.get_gamestate()
 
         # Get observation
-        observation = gamestate['observation']
+        observation = gamestate['field']
 
         # Get reward
         reward = self.get_reward(gamestate, action)
@@ -107,7 +107,7 @@ class TetrisEnvironment(gym.Env):
         gamestate = tetris.get_gamestate()
 
         # Get observation
-        observation = gamestate['observation']
+        observation = gamestate['field']
 
         # Set input to none
         self.give_input(0)

@@ -248,7 +248,7 @@ def initialize_game():
     # Create a clock
     clock = pygame.time.Clock()
 
-    fall_speed = 160 # Default = 40, set higher for debugging
+    fall_speed = constants.FALL_SPEED 
     score = 0
     tetronimo = Tetronimo()
 

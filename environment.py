@@ -35,6 +35,9 @@ class TetrisEnvironment(gym.Env):
         reward = self.get_reward(gamestate, action)
         self.total_reward += reward
 
+        # Update current score
+        self.score = gamestate['score']
+
         # Check if game is over
         if gamestate['is_game_over']:
             done = True

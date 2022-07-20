@@ -120,143 +120,143 @@ class Tetronimo:
         for block in self.blocks:
             block.fall_down(fall_speed, delta_time)      
 
-class Game:
-    # Update runs once per frame
-    def update(self):
-        global fall_speed
-        global clock
-        global field
-        global tetronimo
-        global score
 
-        for event in pygame.event.get():
-            # Check if the game is quit
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                quit()
-            # Check if the user pressed a key
-            if event.type == pygame.KEYDOWN:
-                # Left movement
-                if event.key == pygame.K_LEFT:
-                    tetronimo.move_left(field)
-                # Right movement
-                if event.key == pygame.K_RIGHT:
-                    tetronimo.move_right(field)
+# Update runs once per frame
+def update():
+    global fall_speed
+    global clock
+    global field
+    global tetronimo
+    global score
 
-        # Check for full rows
-        score += self.check_for_full_rows(field)
+    for event in pygame.event.get():
+        # Check if the game is quit
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            quit()
+        # Check if the user pressed a key
+        if event.type == pygame.KEYDOWN:
+            # Left movement
+            if event.key == pygame.K_LEFT:
+                tetronimo.move_left(field)
+            # Right movement
+            if event.key == pygame.K_RIGHT:
+                tetronimo.move_right(field)
 
-        # Check if the game is over
-        if self.is_game_over(field):
-            print("Game over")
-            return
+    # Check for full rows
+    score += check_for_full_rows(field)
 
-        # Get delta time
-        delta_time = clock.tick(constants.FPS)
+    # Check if the game is over
+    if is_game_over(field):
+        print("Game over")
+        return
 
-        # Check if tetronimo can move down
-        if tetronimo.can_move_down(field):
-            tetronimo.fall_down(fall_speed, delta_time)
-        else:
-            # Set the tetronimo to the field
-            for block in tetronimo.get_blocks():
-                field[block.get_y_in_blocks()][block.get_x_in_blocks()] = 1
-            # Create a new tetronimo
-            tetronimo = Tetronimo()
+    # Get delta time
+    delta_time = clock.tick(constants.FPS)
 
-        # Draw the screen
-        self.draw_screen(field, tetronimo)    
+    # Check if tetronimo can move down
+    if tetronimo.can_move_down(field):
+        tetronimo.fall_down(fall_speed, delta_time)
+    else:
+        # Set the tetronimo to the field
+        for block in tetronimo.get_blocks():
+            field[block.get_y_in_blocks()][block.get_x_in_blocks()] = 1
+        # Create a new tetronimo
+        tetronimo = Tetronimo()
 
-        # Update the screen
-        pygame.display.update()
+    # Draw the screen
+    draw_screen(field, tetronimo)    
 
-    # Draw the screen (includes field, current tetronimo and background)
-    def draw_screen(self, field, current_tetronimo):
-        # Fill the screen with black
-        window.fill((0, 0, 0))
+    # Update the screen
+    pygame.display.update()
 
-        # Make the playing field dark gray
-        pygame.draw.rect(window, (50, 50, 50), (0, 0, 10 * constants.BLOCK_SIZE, 20 * constants.BLOCK_SIZE))
+# Draw the screen (includes field, current tetronimo and background)
+def draw_screen(field, current_tetronimo):
+    # Fill the screen with black
+    window.fill((0, 0, 0))
 
-        # Draw every block in the field
-        for y in range(20):
-            for x in range(10):
-                if field[y][x] == 1:
-                    pygame.draw.rect(window, (0, 255, 0), (x * constants.BLOCK_SIZE, y * constants.BLOCK_SIZE, constants.BLOCK_SIZE, constants.BLOCK_SIZE))
+    # Make the playing field dark gray
+    pygame.draw.rect(window, (50, 50, 50), (0, 0, 10 * constants.BLOCK_SIZE, 20 * constants.BLOCK_SIZE))
 
-        # Draw the current tetronimo
-        for block in current_tetronimo.get_blocks():
-            pygame.draw.rect(window, block.block_color, (block.get_x_in_blocks() * constants.BLOCK_SIZE, block.get_y_in_blocks() * constants.BLOCK_SIZE, constants.BLOCK_SIZE, constants.BLOCK_SIZE))
-
-        # Draw the score
-        font = pygame.font.Font('freesansbold.ttf', 25)
-        score_text = font.render("Score: " + str(score), True, (255, 255, 255))
-        window.blit(score_text, (10 * constants.BLOCK_SIZE + 20 , 40))
-
-    # Check the field for full rows
-    def check_for_full_rows(self, field):
-        # Check if there are full rows
-        full_rows = 0
-        for y in range(20):
-            full = True
-            for x in range(10):
-                if field[y][x] == 0:
-                    full = False
-            if full:
-                full_rows += 1
-                # Remove the full row
-                for x in range(10):
-                    field[y][x] = 0
-                # Move all rows above down
-                for y2 in range(y, 1, -1):
-                    for x2 in range(10):
-                        field[y2][x2] = field[y2 - 1][x2]
-        return full_rows
-
-    # Check if the game is over (block in the top row)
-    def is_game_over(self, field):
+    # Draw every block in the field
+    for y in range(20):
         for x in range(10):
-            if field[0][x] == 1:
-                return True
-        return False
+            if field[y][x] == 1:
+                pygame.draw.rect(window, (0, 255, 0), (x * constants.BLOCK_SIZE, y * constants.BLOCK_SIZE, constants.BLOCK_SIZE, constants.BLOCK_SIZE))
 
-    # Reset the game
-    def reset(self):
-        global field
-        global tetronimo
-        global score
-        field = [[0 for x in range(10)] for y in range(20)]
-        tetronimo = Tetronimo()
-        score = 0
+    # Draw the current tetronimo
+    for block in current_tetronimo.get_blocks():
+        pygame.draw.rect(window, block.block_color, (block.get_x_in_blocks() * constants.BLOCK_SIZE, block.get_y_in_blocks() * constants.BLOCK_SIZE, constants.BLOCK_SIZE, constants.BLOCK_SIZE))
 
-    # Initialize the game
-    def initialize_game(self):
-        global window
-        global clock
-        global field
-        global tetronimo
-        global score
-        global fall_speed
+    # Draw the score
+    font = pygame.font.Font('freesansbold.ttf', 25)
+    score_text = font.render("Score: " + str(score), True, (255, 255, 255))
+    window.blit(score_text, (10 * constants.BLOCK_SIZE + 20 , 40))
 
-        # Initialize pygame
-        pygame.init()
+# Check the field for full rows
+def check_for_full_rows(field):
+    # Check if there are full rows
+    full_rows = 0
+    for y in range(20):
+        full = True
+        for x in range(10):
+            if field[y][x] == 0:
+                full = False
+        if full:
+            full_rows += 1
+            # Remove the full row
+            for x in range(10):
+                field[y][x] = 0
+            # Move all rows above down
+            for y2 in range(y, 1, -1):
+                for x2 in range(10):
+                    field[y2][x2] = field[y2 - 1][x2]
+    return full_rows
 
-        # Create a pygame window
-        window = pygame.display.set_mode((10 * constants.BLOCK_SIZE + 200, 20 * constants.BLOCK_SIZE))
-        pygame.display.set_caption("Tetris")
+# Check if the game is over (block in the top row)
+def is_game_over(field):
+    for x in range(10):
+        if field[0][x] == 1:
+            return True
+    return False
 
-        # Create a clock
-        clock = pygame.time.Clock()
+# Reset the game
+def reset():
+    global field
+    global tetronimo
+    global score
+    field = [[0 for x in range(10)] for y in range(20)]
+    tetronimo = Tetronimo()
+    score = 0
 
-        fall_speed = 160 # Default = 40, set higher for debugging
-        score = 0
-        tetronimo = Tetronimo()
+# Initialize the game
+def initialize_game():
+    global window
+    global clock
+    global field
+    global tetronimo
+    global score
+    global fall_speed
 
-        # Generate a 2D list of 0s to represent the playing field
-        field = [[0 for x in range(10)] for y in range(20)]
+    # Initialize pygame
+    pygame.init()
 
-    # Get current gamestate
-    def get_game_state(self):
+    # Create a pygame window
+    window = pygame.display.set_mode((10 * constants.BLOCK_SIZE + 200, 20 * constants.BLOCK_SIZE))
+    pygame.display.set_caption("Tetris")
+
+    # Create a clock
+    clock = pygame.time.Clock()
+
+    fall_speed = 160 # Default = 40, set higher for debugging
+    score = 0
+    tetronimo = Tetronimo()
+
+    # Generate a 2D list of 0s to represent the playing field
+    field = [[0 for x in range(10)] for y in range(20)]
+
+# Get current gamestate
+def get_game_state():
         global field
         global score
         global tetronimo
@@ -282,9 +282,8 @@ class Game:
 
 if __name__ == "__main__":
     # Run the game
-    game = Game()
-    game.initialize_game()
+    initialize_game()
 
     run = True
     while run:
-        game.update()
+        update()

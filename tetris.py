@@ -14,6 +14,10 @@ class Block:
 
     # Get x position
     def get_x_in_blocks(self):
+        if self.x_position // constants.BLOCK_SIZE < 0:
+            return 0
+        if self.x_position // constants.BLOCK_SIZE > 9:
+            return 9
         return int(self.x_position // constants.BLOCK_SIZE)
 
     # Get y position
@@ -21,6 +25,10 @@ class Block:
         return self.y_position
 
     def get_y_in_blocks(self):
+        if self.y_position // constants.BLOCK_SIZE < 0:
+            return 0
+        if self.y_position // constants.BLOCK_SIZE > 19:
+            return 19
         return int(self.y_position // constants.BLOCK_SIZE)
 
     # Check if block can move left
@@ -269,15 +277,20 @@ def get_gamestate():
 
         # Add the current tetronimo to the field
         for block in tetronimo.get_blocks():
-            # Safety check for out of bounds
-            if block.get_y_in_blocks() < 20 and block.get_x_in_blocks() < 10:
-                field_with_current_tetronimo[block.get_y_in_blocks()][block.get_x_in_blocks()] = 1
+            field_with_current_tetronimo[block.get_y_in_blocks()][block.get_x_in_blocks()] = 1
         gamestate['field'] = field_with_current_tetronimo
 
         # Add the score to the dictionary
         gamestate['score'] = score
 
+        # Add game over state to the dictionary
         gamestate['is_game_over'] = is_game_over(field)
+
+        # Add avarage height of current tetronimo to the dictionary
+        average_height = 0
+        for block in tetronimo.get_blocks():
+            average_height += block.get_y_in_blocks()
+        gamestate['average_height_of_current_tetronimo'] = average_height / len(tetronimo.get_blocks())
 
         # Return the dictionary
         return gamestate

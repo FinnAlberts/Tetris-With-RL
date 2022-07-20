@@ -256,7 +256,7 @@ def initialize_game():
     field = [[0 for x in range(10)] for y in range(20)]
 
 # Get current gamestate
-def get_game_state():
+def get_gamestate():
         global field
         global score
         global tetronimo

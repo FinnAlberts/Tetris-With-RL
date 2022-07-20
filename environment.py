@@ -48,7 +48,7 @@ class TetrisEnvironment(gym.Env):
 
             # Log total reward
             with open('rewards.txt', 'a', encoding='utf-8') as file:
-                file.write(str(self.total_reward) + " " + str(self.score) + "\n")
+                file.write(str(self.total_reward) + " " + str(gamestate['score']) + "\n")
 
         # Create info dictionary
         info = {}

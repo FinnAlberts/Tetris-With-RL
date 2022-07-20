@@ -11,7 +11,7 @@ class TetrisEnvironment(gym.Env):
         self.action_space = spaces.Discrete(3)
 
         # Define observation space
-        self.observation_space = spaces.Box(low=0, high=1, shape=(10, 20))
+        self.observation_space = spaces.Box(low=0, high=1, shape=(20, 10))
 
         # Initialize pynput controller for giving input
         self.keyboard = Controller()

@@ -22,7 +22,6 @@ class TetrisEnvironment(gym.Env):
 
     def step(self, action: int):
         # Give input
-        print("Giving input:", action)
         self.give_input(action)
 
         # Read gamestate

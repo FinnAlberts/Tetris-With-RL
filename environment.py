@@ -17,9 +17,8 @@ class TetrisEnvironment(gym.Env):
         self.keyboard = Controller()
 
         # Initialize tetris game
-        print("Initializing tetris game!!!!!!!!!")
-        self.game = tetris.Game()
-        self.game.initialize_game()
+        tetris.initialize_game()
+        print("Gym environment initialized")
 
     def step(self, action: int):
         # Give input
@@ -27,7 +26,7 @@ class TetrisEnvironment(gym.Env):
         self.give_input(action)
 
         # Read gamestate
-        gamestate = self.game.read_gamestate()
+        gamestate = tetris.get_gamestate()
 
         # Get observation
         observation = gamestate['observation']
@@ -55,7 +54,7 @@ class TetrisEnvironment(gym.Env):
         info = {}
 
         # Update game
-        self.game.update()
+        tetris.update()
 
         # Increase step counter
         self.step_counter += 1
@@ -102,10 +101,10 @@ class TetrisEnvironment(gym.Env):
         self.total_reward = 0
 
         # Reset game
-        self.game.reset()
+        tetris.reset()
 
         # Read gamestate
-        gamestate = self.game.read_gamestate()
+        gamestate = tetris.get_gamestate()
 
         # Get observation
         observation = gamestate['observation']

@@ -269,7 +269,9 @@ def get_gamestate():
 
         # Add the current tetronimo to the field
         for block in tetronimo.get_blocks():
-            field_with_current_tetronimo[block.get_y_in_blocks()][block.get_x_in_blocks()] = 1
+            # Safety check for out of bounds
+            if block.get_y_in_blocks() < 20 and block.get_x_in_blocks() < 10:
+                field_with_current_tetronimo[block.get_y_in_blocks()][block.get_x_in_blocks()] = 1
         gamestate['field'] = field_with_current_tetronimo
 
         # Add the score to the dictionary

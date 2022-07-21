@@ -78,7 +78,7 @@ class Tetronimo:
     def __init__(self):
         self.blocks = []
         # Choose a random tetronimo
-        tetronimo_type = random.randint(0, 1)
+        tetronimo_type = 3
         # Create a tetronimo
         # Straight shape
         if tetronimo_type == 0:
@@ -90,6 +90,9 @@ class Tetronimo:
             self.blocks.append(Block(5, 0))
             self.blocks.append(Block(4, 1))
             self.blocks.append(Block(5, 1))
+        # Single 1x1 block
+        elif tetronimo_type == 3:
+            self.blocks.append(Block(4, 0))
 
     def get_blocks(self):
         return self.blocks

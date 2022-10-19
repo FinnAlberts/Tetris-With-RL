@@ -81,13 +81,10 @@ class TetrisEnvironment(gym.Env):
 
         # Check if game is over
         if gamestate['is_game_over']:
-            reward -= 100
+            reward -= 250
 
         # Check if score has increased
-        reward += (gamestate['score'] - self.score) * 10000
-
-        # Get a reward, depending on how far the tetronimo has fallen
-        reward += gamestate['average_height_of_current_tetronimo'] * 10
+        reward += (gamestate['score'] - self.score) * 100
 
         # Check if tetronimo has moved left or right
         if action == 1 or action == 2:

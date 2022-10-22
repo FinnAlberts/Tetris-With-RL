@@ -3,18 +3,7 @@ from environment import TetrisEnvironment
 from stable_baselines3 import PPO
 from stable_baselines3.common.evaluation import evaluate_policy
 from os import path
-from graph import graph
-from multiprocessing import Process
 
-# Function for running graph.py and main.py simultaneously
-def run_in_parallel(*fns):
-  processes = []
-  for fn in fns:
-    process = Process(target=fn)
-    process.start()
-    processes.append(process)
-  for process in processes:
-    process.join()
 
 # Function for training the model and running the game
 def main():
@@ -49,6 +38,3 @@ def main():
         environment.close()
 
 
-if __name__ == "__main__":
-    print("HI WORLD IM ALIVE")
-    run_in_parallel(main, graph)

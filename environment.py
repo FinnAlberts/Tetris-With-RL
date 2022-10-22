@@ -192,9 +192,6 @@ class TetrisEnvironment(gym.Env):
         # Check for full rows
         self.score += check_for_full_rows(self.field)
 
-        # Check if the game is over
-        if is_game_over(self.field):
-            done = True
         # Move the tetronimo down if possible
         delta_time = self.clock.tick(FPS)
         if self.tetronimo.can_move_down(self.field):

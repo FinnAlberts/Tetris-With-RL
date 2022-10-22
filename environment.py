@@ -2,6 +2,9 @@ import gym
 from gym import spaces
 import tetris
 from pynput.keyboard import Key, Controller
+FPS = 30
+BLOCK_SIZE = 25
+FALL_SPEED = 300 # Default = 40, set higher for debugging
 
 class TetrisEnvironment(gym.Env):
     def __init__(self):

@@ -19,14 +19,13 @@ if not os.path.exists(models_directory):
 if not os.path.exists(log_directory):
     os.makedirs(log_directory)
 
-    # Run the program infinitely
-    while True:
-        # Learn for 20 000 steps
-        # model.learn(20000)
+# Create environment
+environment = TetrisEnvironment()
+environment.reset()
 
-        # Save the model
-        print("Saving the model to trained_model.zip")
-        # model.save("trained_model.zip")
+model = PPO("MlpPolicy", environment, verbose=1, tensorboard_log=log_directory)
 
-
-
+# Run the program for a set amount of episodes
+for episode in range(1, EPISODES + 1):
+    model.learn(total_timesteps=TIMESTAMPS, reset_num_timesteps=False, tb_log_name="PPO")
+    model.save(f"{models_directory}/PPO{episode * TIMESTAMPS}")

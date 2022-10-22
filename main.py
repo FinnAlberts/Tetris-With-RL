@@ -1,8 +1,7 @@
-import gym
+import time
 from environment import TetrisEnvironment
+import os
 from stable_baselines3 import PPO
-from stable_baselines3.common.evaluation import evaluate_policy
-from os import path
 
 
 # Function for training the model and running the game

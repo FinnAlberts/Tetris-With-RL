@@ -229,7 +229,6 @@ class TetrisEnvironment(gym.Env):
 
         # Get reward
         reward = self.get_reward(gamestate, action)
-        self.total_reward += reward
 
         # Update current score (used for comparing score since last frame)
         self.score = gamestate['score']
@@ -270,9 +269,6 @@ class TetrisEnvironment(gym.Env):
 
     # Reset the environment
     def reset(self):
-        # Reset total reward
-        self.total_reward = 0
-
         # Initialize pygame
         pygame.init()
 

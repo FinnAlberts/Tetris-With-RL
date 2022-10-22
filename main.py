@@ -6,11 +6,6 @@ from stable_baselines3 import PPO
 TIMESTAMPS = 10000
 EPISODES = 100
 
-# Function for training the model and running the game
-def main():
-    print("START TRAINING")
-    # Register Gym environment and create model
-    gym.register('Tetris-v0', entry_point=TetrisEnvironment)
 # Declare folder paths
 models_directory = f"models/PPO{int(time.time())}"
 log_directory = f"logs/PPO{int(time.time())}"

@@ -4,11 +4,12 @@ from gym import spaces
 import pygame
 import numpy
 
+# Define constants
 FPS = 30
 BLOCK_SIZE = 25
 FALL_SPEED = 300 # Default = 40, set higher for debugging
 
-# Create a block class
+# Create a block class for the blocks of a tetronimo
 class Block:
     # Initiailize Block
     def __init__(self, x_position = 5.0, y_position = 0.0):
@@ -76,7 +77,7 @@ class Block:
     def set_y(self, y_position):
         self.y_position = y_position
 
-# Create a Tetronimo class
+# Create a tetronimo class
 class Tetronimo:
     # Initialize Tetronimo
     def __init__(self):
@@ -135,7 +136,7 @@ class Tetronimo:
         for block in self.blocks:
             block.fall_down(fall_speed, delta_time)  
 
-# Check the field for full rows
+# Check the field for full rows. Returns the number of full rows
 def check_for_full_rows(field):
     # Check if there are full rows
     full_rows = 0
@@ -155,13 +156,14 @@ def check_for_full_rows(field):
                     field[y2][x2] = field[y2 - 1][x2]
     return full_rows
 
-# Check if the game is over (block in the top row)
+# Check if the game is over (the game is over when there is a block in the top row)
 def is_game_over(field):
     for x in range(10):
         if field[0][x] == 1:
             return True
     return False
 
+# Gym environment for Tetris
 class TetrisEnvironment(gym.Env):
     def __init__(self):
         super().__init__()
@@ -169,21 +171,21 @@ class TetrisEnvironment(gym.Env):
         # Define action space (do nothing, left, right)
         self.action_space = spaces.Discrete(3)
 
-        # Define observation space
+        # Define observation space (y of current tentronimo, x of current tetronimo, empty blocks per column (10x))
         self.observation_space = spaces.Box(low=0, high=20, shape=(12,), dtype=numpy.float32)
 
+    # Move forward one step (one frame)
     def step(self, action: int):
-        # Game handling
+        # Check if the game is quit by the user
         for event in pygame.event.get():
-            # Check if the game is quit
             if event.type == pygame.QUIT:
                 pygame.quit()
                 quit()
 
-        # Left movement
+        # Move left
         if action == 1:
             self.tetronimo.move_left(self.field)
-        # Right movement
+        # Move right
         if action == 2:
             self.tetronimo.move_right(self.field)
 
@@ -193,24 +195,20 @@ class TetrisEnvironment(gym.Env):
         # Check if the game is over
         if is_game_over(self.field):
             done = True
-
-        # Get delta time
+        # Move the tetronimo down if possible
         delta_time = self.clock.tick(FPS)
-
-        # Check if tetronimo can move down
         if self.tetronimo.can_move_down(self.field):
             self.tetronimo.fall_down(self.fall_speed, delta_time)
         else:
-            # Set the tetronimo to the field
+            # The tetronimo can't move down, so it is placed on the field and a new tetronimo is created
             for block in self.tetronimo.get_blocks():
                 self.field[block.get_y_in_blocks()][block.get_x_in_blocks()] = 1
-            # Create a new tetronimo
             self.tetronimo = Tetronimo()
 
         # Draw the screen
         self.draw_screen()    
 
-        # Update the screen
+        # Refresh the screen
         pygame.display.update()
 
         # Read gamestate
@@ -218,8 +216,6 @@ class TetrisEnvironment(gym.Env):
 
         # Get observation
         field = gamestate['field']
-
-        # Build observation, based on height and position of current tetronimo and height of each column of the field
         observation = []
         observation.append(self.tetronimo.get_blocks()[0].get_y_in_blocks())
         observation.append(self.tetronimo.get_blocks()[0].get_x_in_blocks())
@@ -235,7 +231,7 @@ class TetrisEnvironment(gym.Env):
         reward = self.get_reward(gamestate, action)
         self.total_reward += reward
 
-        # Update current score
+        # Update current score (used for comparing score since last frame)
         self.score = gamestate['score']
 
         # Check if game is over
@@ -244,32 +240,35 @@ class TetrisEnvironment(gym.Env):
         else:
             done = False
 
-        # Create info dictionary
+        # Create info dictionary (used for debugging, but not used here)
         info = {}
 
         # Return observation, reward, done, info
         return observation, reward, done, info
-
+    
+    # Calculate the reward given gamestate and action
     def get_reward(self, gamestate, action):
-        # Get reward
+        # Initialize reward
         reward = 0
 
-        # Check if game is over
+        # Check if game is over (penanlty of 250)
         if gamestate['is_game_over']:
             reward -= 250
 
-        # Check if score has increased
+        # Check if score has increased (reward of 100)
         reward += (gamestate['score'] - self.score) * 100
 
-        # Get a reward for height of the tetronimo
+        # Get a reward for distance fallen of the current tetronimo (reward of 1 per block)
         reward += (gamestate['average_height_of_current_tetronimo'])
 
-        # Check if tetronimo has moved left or right
+        # Check if tetronimo has moved left or right (penalty of 0.1 to prevent useless movement)
         if action == 1 or action == 2:
             reward -= 0.1
-    
+
+        # Return the reward
         return reward
 
+    # Reset the environment
     def reset(self):
         # Reset total reward
         self.total_reward = 0
@@ -284,6 +283,7 @@ class TetrisEnvironment(gym.Env):
         # Create a clock
         self.clock = pygame.time.Clock()
 
+        # Reset variables
         self.fall_speed = FALL_SPEED 
         self.score = 0
         self.tetronimo = Tetronimo()
@@ -296,8 +296,6 @@ class TetrisEnvironment(gym.Env):
 
         # Get observation
         field = gamestate['field']
-
-        # Build observation, based on height and position of current tetronimo and height of each column of the field
         observation = []
         observation.append(self.tetronimo.get_blocks()[0].get_y_in_blocks())
         observation.append(self.tetronimo.get_blocks()[0].get_x_in_blocks())

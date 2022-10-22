@@ -170,7 +170,7 @@ class TetrisEnvironment(gym.Env):
         self.action_space = spaces.Discrete(3)
 
         # Define observation space
-        self.observation_space = spaces.Box(low=0, high=2, shape=(20, 10))
+        self.observation_space = spaces.Box(low=0, high=20, shape=(12,), dtype=numpy.float32)
 
     def step(self, action: int):
         # Game handling
@@ -217,7 +217,19 @@ class TetrisEnvironment(gym.Env):
         gamestate = self.get_gamestate()
 
         # Get observation
-        observation = gamestate['field']
+        field = gamestate['field']
+
+        # Build observation, based on height and position of current tetronimo and height of each column of the field
+        observation = []
+        observation.append(self.tetronimo.get_blocks()[0].get_y_in_blocks())
+        observation.append(self.tetronimo.get_blocks()[0].get_x_in_blocks())
+        for x in range(10):
+            for y in range(20):
+                if field[y][x] == 1:
+                    observation.append(y)
+                    break
+                if y == 19:
+                    observation.append(20)
 
         # Get reward
         reward = self.get_reward(gamestate, action)
@@ -283,7 +295,19 @@ class TetrisEnvironment(gym.Env):
         gamestate = self.get_gamestate()
 
         # Get observation
-        observation = gamestate['field']
+        field = gamestate['field']
+
+        # Build observation, based on height and position of current tetronimo and height of each column of the field
+        observation = []
+        observation.append(self.tetronimo.get_blocks()[0].get_y_in_blocks())
+        observation.append(self.tetronimo.get_blocks()[0].get_x_in_blocks())
+        for x in range(10):
+            for y in range(20):
+                if field[y][x] == 1:
+                    observation.append(y)
+                    break
+                if y == 19:
+                    observation.append(20)
 
         # Return observation
         return observation

@@ -3,6 +3,8 @@ from environment import TetrisEnvironment
 import os
 from stable_baselines3 import PPO
 
+TIMESTAMPS = 10000
+EPISODES = 100
 
 # Function for training the model and running the game
 def main():

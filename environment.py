@@ -228,7 +228,7 @@ class TetrisEnvironment(gym.Env):
         reward = self.get_reward(gamestate, action)
 
         # Update current score (used for comparing score since last frame)
-        self.score = gamestate['score']
+        self.previous_score = self.score
 
         # Check if game is over
         if gamestate['is_game_over']:
@@ -279,6 +279,7 @@ class TetrisEnvironment(gym.Env):
         # Reset variables
         self.fall_speed = FALL_SPEED 
         self.score = 0
+        self.previous_score = 0
         self.tetronimo = Tetronimo()
 
         # Generate a 2D list of 0s to represent the playing field

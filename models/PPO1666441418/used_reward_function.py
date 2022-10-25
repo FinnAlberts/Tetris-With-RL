@@ -8,6 +8,7 @@ def get_reward(self, gamestate, action):
         reward -= 250
 
     # Check if score has increased (reward of 100)
+    # THIS DOES NOT WORK: gamestate['score'] is the same as self.score
     reward += (gamestate['score'] - self.score) * 100
 
     # Get a reward for distance fallen of the current tetronimo (reward of 1 per block)

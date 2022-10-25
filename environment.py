@@ -304,7 +304,7 @@ class TetrisEnvironment(gym.Env):
         # Return observation
         return observation
 
-    # Get current gamestate
+    # Get current gamestate (deprecated)
     def get_gamestate(self):
         # Create a dictionary with the gamestate
         gamestate = {}

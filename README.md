@@ -34,6 +34,12 @@ It is possible to view the results of the training using Tensorboard. To do this
 After Tensorboard has started, open a browser and go to ```http://localhost:6006/```.
 
 ## Customizing the environment
-It is possible to customize the environment by changing the ```enviroment.py``` file. One of the easiest ways to change the environment is changing the reward function. The reward function is defined in ```get_reward(...)```.
+It is possible to customize the environment by changing the ```environment.py``` file. One of the easiest ways to change the environment is changing the reward function. The reward function is defined in ```get_reward(...)```.
 
 Is is also possible to change the used algorithm by changing the ```train_model.py``` file. To do this, replace all instances of ```PPO``` (in lines 4, 10, 11, 23, 27 and 28) with the algorithm of your choice. The available algorithms are defined in the ```stable_baselines3``` package.
+
+After a environment has been modified, it is recommended to check if it functions as expected. To do this, run the following command:
+
+```python check_environment.py```
+
+This will run the enviroment for 50 epsiodes while executing random actions. The observation, action and reward will be printed to the console.

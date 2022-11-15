@@ -24,14 +24,14 @@ To load a model, run the following command:
 
 ```python load_model.py```
 
-The model will load the model from the models folder and play the game for 5 episodes. Model names are defined as follows: ```{used_algorithm}{timestamp}_{used_algorithm}{number_of_timestamps_trained}.zip```
+The model will load the model from the models folder and play the game for 5 episodes. Model names are defined as follows: ```{used_algorithm}{start_training_time_epoch}_{used_algorithm}{number_of_timestamps_trained}.zip```
 
 ## Viewing the progress using Tensorboard
 It is possible to view the results of the training using Tensorboard. To do this, run the following command:
 
 ```python -m tensorboard.main --logdir=logs```
 
-After TensorBoard has started, open a browser and go to ```http://localhost:6006/```.
+After Tensorboard has started, open a browser and go to ```http://localhost:6006/```.
 
 ## Customizing the environment
 It is possible to customize the environment by changing the ```enviroment.py``` file. One of the easiest ways to change the environment is changing the reward function. The reward function is defined in ```get_reward(...)```.

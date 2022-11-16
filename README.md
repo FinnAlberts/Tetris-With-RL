@@ -4,7 +4,7 @@ This repository contains Tetris with reinforcement learning. The game is written
 The used Tetris game is custom made and is not based on any other Tetris game. The game is written in Python and uses Pygame for the graphics. The game is simplified to improve the performance of the reinforcement learning. This is done by only having 1x1 blocks falling instead of the regular shapes.
 
 ## Getting started
-The application exists of three parts:
+The application exists of two parts:
 - The training script for training a model
 - The loading script for loading a trained model
 

@@ -153,12 +153,10 @@ class Tetronimo:
             # set the color to orange
             for block in self.blocks:
                 block.block_color = (255, 165, 0)
-
-                    
-
-        # # Single 1x1 block
-        # elif tetronimo_type == 3:
-        #     self.blocks.append(Block(4, 0))
+        
+        # Single 1x1 block
+        else:
+            self.blocks.append(Block(4, 0))
 
     def get_blocks(self):
         return self.blocks

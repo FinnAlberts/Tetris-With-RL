@@ -3,9 +3,10 @@ import gym
 from gym import spaces
 import pygame
 import numpy
+import random
 
 # Define constants
-FPS = 30
+FPS = 60
 BLOCK_SIZE = 25
 FALL_SPEED = 300 # Default = 40, set higher for debugging
 
@@ -82,22 +83,82 @@ class Tetronimo:
     # Initialize Tetronimo
     def __init__(self):
         self.blocks = []
-        # Choose a random tetronimo
-        tetronimo_type = 3
+        # Choose a random tetronimo_type
+        tetronimo_type = random.randint(0, 6)
+        #tetronimo_type = 1
+
         # Create a tetronimo
         # Straight shape
         if tetronimo_type == 0:
             for i in range(4):
                 self.blocks.append(Block(3 + i, 0))
+            # set the color to blue
+            for block in self.blocks:
+                block.block_color = (0, 0, 255)
         # Square shape
         elif tetronimo_type == 1:
             self.blocks.append(Block(4, 0))
             self.blocks.append(Block(5, 0))
             self.blocks.append(Block(4, 1))
             self.blocks.append(Block(5, 1))
-        # Single 1x1 block
+            # set the color to red
+            for block in self.blocks:
+                block.block_color = (255, 0, 0)
+        # L shape
+        elif tetronimo_type == 2:
+            self.blocks.append(Block(4, 0))
+            self.blocks.append(Block(4, 1))
+            self.blocks.append(Block(4, 2))
+            self.blocks.append(Block(5, 2))
+            # set the color to green
+            for block in self.blocks:
+                block.block_color = (0, 255, 0)
+
+        # J shape
         elif tetronimo_type == 3:
             self.blocks.append(Block(4, 0))
+            self.blocks.append(Block(4, 1))
+            self.blocks.append(Block(4, 2))
+            self.blocks.append(Block(3, 2))
+            # set the color to yellow
+            for block in self.blocks:
+                block.block_color = (255, 255, 0)
+
+        # T shape
+        elif tetronimo_type == 4:
+            self.blocks.append(Block(4, 0))
+            self.blocks.append(Block(4, 1))
+            self.blocks.append(Block(4, 2))
+            self.blocks.append(Block(3, 1))
+            # set the color to purple
+            for block in self.blocks:
+                block.block_color = (255, 0, 255)
+
+        # S shape
+        elif tetronimo_type == 5:
+            self.blocks.append(Block(4, 0))
+            self.blocks.append(Block(5, 0))
+            self.blocks.append(Block(3, 1))
+            self.blocks.append(Block(4, 1))
+            # set the color to cyan
+            for block in self.blocks:
+                block.block_color = (0, 255, 255)
+
+        # Z shape
+        elif tetronimo_type == 6:
+            self.blocks.append(Block(4, 0))
+            self.blocks.append(Block(3, 0))
+            self.blocks.append(Block(4, 1))
+            self.blocks.append(Block(5, 1))
+            # set the color to orange
+            for block in self.blocks:
+                block.block_color = (255, 165, 0)
+
+                    
+
+        # # Single 1x1 block
+        # elif tetronimo_type == 3:
+        #     self.blocks.append(Block(4, 0))
 
     def get_blocks(self):
         return self.blocks
